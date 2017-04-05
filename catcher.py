@@ -5,12 +5,18 @@ import datetime
 
 import PIL.ImageGrab                                      # 这个模块负责屏幕截图
 from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 import pytesseract
 from openpyxl import Workbook,load_workbook               # 这个模块负责操作excel文件
+import threading
+import matplotlib.pyplot as plt
+from matplotlib import animation
 
 
 #这个是创建的记录文件的路径
 res_path = 'result/'+datetime.datetime.now().strftime('%Y-%m-%d')+'.xlsx'
+lock = threading.Lock()
+datalist = []
 
 #这个类没有实际功能，作为结构体存储数据
 class RectItem:
@@ -36,7 +42,7 @@ def my_job(pre_date):
         try:
             result = float(tmpstr)
             pre_date[index] = result
-            tmp_print = f"点位{index+1}，正确，结果是：{result}"
+            #tmp_print = f"点位{index+1}，正确，结果是：{result}"
             print(tmp_print)
         except Exception as e:
             tmp_print = f"点位{index+1}，不能转化为数字：{tmpstr}"
@@ -44,6 +50,7 @@ def my_job(pre_date):
             result = pre_date[index]
         finally:
             result_list.append(result)
+            datalist[index].append(result)
     ws.append(result_list)
     outstr = ''
     for tmp in result_list:
@@ -83,6 +90,8 @@ if __name__ == '__main__':
     pre_date = []
     for rect in rectlist:
         pre_date.append(0)
+        datalist.append([])
+
 
     #第三部分，检测文件是否存在，没有则创建，并初始化表头
     if os.path.exists(res_path):
@@ -99,10 +108,52 @@ if __name__ == '__main__':
 
     #第四部分，开始按照时间规则执行抓取任务
     par_str = r'*/' + step
-    sched = BlockingScheduler()
-    sched.add_job(my_job, 'cron', second=par_str, minute='29-59', hour='9', args=[pre_date])
-    sched.add_job(my_job, 'cron', second=par_str, minute='0-29', hour='11', args=[pre_date])
-    sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='10,13,14', args=[pre_date])
-    #sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='*', args=[pre_date])
+    sched = BackgroundScheduler()
+    #sched.add_job(my_job, 'cron', second=par_str, minute='29-59', hour='9', args=[pre_date])
+    #sched.add_job(my_job, 'cron', second=par_str, minute='0-29', hour='11', args=[pre_date])
+    #sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='10,13,14', args=[pre_date])
+    sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='*', args=[pre_date])
     print("开始抓取")
     sched.start()
+
+
+    #第五部分，画图
+    fig = plt.figure()
+    plt.grid(True)  # 添加网格
+    ax = fig.add_subplot(1, 1, 1)
+
+    step_int = int(step)
+    #plt.xlim(0, 4*3600/step_int)
+    plt.xlim(0, 30 / step_int)
+
+
+    linelist = []
+    for index in range(len(rectlist)):
+        line, = ax.plot(range(len(datalist[index])), datalist[index], label=rectlist[index].name)
+        linelist.append(line)
+    plt.legend()
+    #plt.show()
+
+
+    def init():
+        for index in range(len(linelist)):
+            linelist[index].set_data([], [])
+        return linelist
+
+
+    def animate(i):
+        for index in range(len(linelist)):
+            linelist[index].set_data(range(len(datalist[index])), datalist[index])
+        return linelist
+
+
+    anim1 = animation.FuncAnimation(fig, animate, init_func=init,  interval=1000)
+    plt.show()
+
+
+
+
+
+
+    input()
+

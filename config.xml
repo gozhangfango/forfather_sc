@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 
-    <rect name="中国石油">
+    <rect name="zgsy">
         <top-left-dot width="119" height="76"></top-left-dot>
         <bottom-right-dot width="168" height="89"></bottom-right-dot>
     </rect>
 
-    <rect name="中国石化">
+    <rect name="zgsh">
         <top-left-dot width="179" height="348"></top-left-dot>
         <bottom-right-dot width="198" height="364"></bottom-right-dot>
     </rect>
