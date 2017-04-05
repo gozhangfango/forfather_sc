@@ -50,7 +50,9 @@ def my_job(pre_date):
             result = pre_date[index]
         finally:
             result_list.append(result)
+            lock.acquire()
             datalist[index].append(result)
+            lock.release()
     ws.append(result_list)
     outstr = ''
     for tmp in result_list:
@@ -129,7 +131,9 @@ if __name__ == '__main__':
 
     linelist = []
     for index in range(len(rectlist)):
+        lock.acquire()
         line, = ax.plot(range(len(datalist[index])), datalist[index], label=rectlist[index].name)
+        lock.release()
         linelist.append(line)
     plt.legend()
     #plt.show()
@@ -143,7 +147,9 @@ if __name__ == '__main__':
 
     def animate(i):
         for index in range(len(linelist)):
+            lock.acquire()
             linelist[index].set_data(range(len(datalist[index])), datalist[index])
+            lock.release()
         return linelist
 
 
