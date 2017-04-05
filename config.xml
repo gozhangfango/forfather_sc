@@ -5,6 +5,12 @@
         <top-left-dot width="119" height="76"></top-left-dot>
         <bottom-right-dot width="168" height="89"></bottom-right-dot>
     </rect>
+
+    <rect name="中国石化">
+        <top-left-dot width="179" height="348"></top-left-dot>
+        <bottom-right-dot width="198" height="364"></bottom-right-dot>
+    </rect>
+
     <display-par>2</display-par>
 
     <step>5</step>

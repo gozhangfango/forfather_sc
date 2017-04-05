@@ -36,8 +36,11 @@ def my_job(pre_date):
         try:
             result = float(tmpstr)
             pre_date[index] = result
+            tmp_print = f"点位{index+1}，正确，结果是：{result}"
+            print(tmp_print)
         except Exception as e:
-            print('错误！检测到的内容不能转化成数字:'+tmpstr)
+            tmp_print = f"点位{index+1}，不能转化为数字：{tmpstr}"
+            print(tmp_print)
             result = pre_date[index]
         finally:
             result_list.append(result)

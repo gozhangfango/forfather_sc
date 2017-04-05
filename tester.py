@@ -34,16 +34,20 @@ if __name__ == '__main__':
 
     #第二部分，开始测试
     def catchjob():
-        for rect in rectlist:
-            im = PIL.ImageGrab.grab((rect.topleftwidth, rect.topleftheight, rect.bottomrightwidth, rect.bottomrightheight))
+        for index in range(len(rectlist)):
+            im = PIL.ImageGrab.grab((rectlist[index].topleftwidth, rectlist[index].topleftheight,
+                                     rectlist[index].bottomrightwidth, rectlist[index].bottomrightheight))
             im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
+            addr = r'testimage/' + rectlist[index].name + ".png"
+            im.save(addr, 'png')
             tmpstr = pytesseract.image_to_string(im, lang="num")
-            result = 0
             try:
                 result = float(tmpstr)
-                print(result)
-            except:
-                print('错误！检测到的内容不能转化成数字:' + tmpstr)
+                tmp_print = f"点位{index+1}，正确，结果是：{result}"
+                print(tmp_print)
+            except Exception as e:
+                tmp_print = f"点位{index+1}，不正确，结果是：{tmpstr}"
+                print(tmp_print)
 
 
     par_str = r'*/' + step
