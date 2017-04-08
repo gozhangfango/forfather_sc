@@ -1,18 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 
-    <rect name="zgsy">
-        <top-left-dot width="119" height="76"></top-left-dot>
-        <bottom-right-dot width="168" height="89"></bottom-right-dot>
+    <rect name="test1">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
     </rect>
 
-    <rect name="zgsh">
-        <top-left-dot width="179" height="348"></top-left-dot>
-        <bottom-right-dot width="198" height="364"></bottom-right-dot>
+    <rect name="test2">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
     </rect>
+
+    <rect name="test3">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
+    </rect>
+
+    <rect name="test4">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
+    </rect>
+
+    <rect name="test5">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
+    </rect>
+
+    <rect name="test6">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
+    </rect>
+
+    <rect name="test7">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
+    </rect>
+
+    <rect name="test8">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
+    </rect>
+
+    <rect name="test9">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
+    </rect>
+
+    <rect name="test10">
+        <top-left-dot width="135" height="70"></top-left-dot>
+        <bottom-right-dot width="180" height="84"></bottom-right-dot>
+    </rect>
+
+
 
     <display-par>2</display-par>
 
     <step>5</step>
+
+    <ylimit_min>4000</ylimit_min>
+    <ylimit_max>5000</ylimit_max>
 
 </config>

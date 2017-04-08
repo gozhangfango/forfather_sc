@@ -32,27 +32,29 @@ def main():
         tempitem.bottomrightheight = int(elem.find("bottom-right-dot").get("height")) * displaypar
         rectlist.append(tempitem)
 
-    #第二部分，开始测试
-    while(1):
-        print("")
-        for index in range(len(rectlist)):
-            im = PIL.ImageGrab.grab((rectlist[index].topleftwidth, rectlist[index].topleftheight,
-                                     rectlist[index].bottomrightwidth, rectlist[index].bottomrightheight))
-            #im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
-            addr = r'testimage/' + rectlist[index].name + ".png"
-            im.save(addr, 'png')
-            tmpstr = pytesseract.image_to_string(im, lang="num")
-            try:
-                result = float(tmpstr)
-                tmp_print = f"点位{index+1}，识别成功，结果是：{result}"
-                print(tmp_print)
-            except Exception as e:
-                tmp_print = f"点位{index+1}，识别不成功，结果是：{tmpstr}"
-                print(tmp_print)
+    for index in range(len(rectlist)):
+        im = PIL.ImageGrab.grab((rectlist[index].topleftwidth, rectlist[index].topleftheight,
+                                 rectlist[index].bottomrightwidth, rectlist[index].bottomrightheight))
+        # im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
+        addr = r'testimage/' + rectlist[index].name + ".png"
+        im.save(addr, 'png')
+        tmpstr = pytesseract.image_to_string(im, lang="num")
+        try:
+            result = float(tmpstr)
+            tmp_print = f"点位{index+1}，识别成功，结果是：{result}"
+            print(tmp_print)
+        except Exception as e:
+            tmp_print = f"点位{index+1}，识别不成功，结果是：{tmpstr}"
+            print(tmp_print)
 
 
-
-        input("按任意键继续，测试截图保存至testimage文件夹，文件名是配置文件里面的name")
+    for rect in rectlist:
+        fig = plt.figure(rect.name)
+        lena = mpimg.imread('testimage/' + rect.name + '.png')  # 读取和代码处于同一目录下的png
+        plt.imshow(lena)  # 显示图片
+        plt.axis('off')  # 不显示坐标轴
+    plt.show()
 
 if __name__ == '__main__':
     main()
+    rectlist = []
