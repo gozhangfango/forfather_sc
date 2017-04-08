@@ -66,7 +66,7 @@ def main():
     sched.add_job(my_job, 'cron', second=par_str, minute='29-59', hour='9', args=[pre_date])
     sched.add_job(my_job, 'cron', second=par_str, minute='0-29', hour='11', args=[pre_date])
     sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='10,13,14', args=[pre_date])
-    sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='*')
+    #sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='*')
     print("开始抓取")
     sched.start()
 
