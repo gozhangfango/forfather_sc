@@ -63,9 +63,9 @@ def main():
     # 第四部分，开始按照时间规则执行抓取任务
     par_str = r'*/' + step
     sched = BackgroundScheduler()
-    sched.add_job(my_job, 'cron', second=par_str, minute='29-59', hour='9', args=[pre_date])
-    sched.add_job(my_job, 'cron', second=par_str, minute='0-29', hour='11', args=[pre_date])
-    sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='10,13,14', args=[pre_date])
+    # sched.add_job(my_job, 'cron', second=par_str, minute='29-59', hour='9', args=[pre_date])
+    # sched.add_job(my_job, 'cron', second=par_str, minute='0-29', hour='11', args=[pre_date])
+    # sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='10,13,14', args=[pre_date])
     sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='*')
     print("开始抓取")
     sched.start()
