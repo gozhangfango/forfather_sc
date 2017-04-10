@@ -32,27 +32,48 @@ def main():
         tempitem.bottomrightheight = int(elem.find("bottom-right-dot").get("height")) * displaypar
         rectlist.append(tempitem)
 
-    #第二部分，开始测试
-    while(1):
-        print("")
-        for index in range(len(rectlist)):
-            im = PIL.ImageGrab.grab((rectlist[index].topleftwidth, rectlist[index].topleftheight,
-                                     rectlist[index].bottomrightwidth, rectlist[index].bottomrightheight))
-            #im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
-            addr = r'testimage/' + rectlist[index].name + ".png"
-            im.save(addr, 'png')
-            tmpstr = pytesseract.image_to_string(im, lang="num")
-            try:
-                result = float(tmpstr)
-                tmp_print = f"点位{index+1}，识别成功，结果是：{result}"
-                print(tmp_print)
-            except Exception as e:
-                tmp_print = f"点位{index+1}，识别不成功，结果是：{tmpstr}"
-                print(tmp_print)
+    for index in range(len(rectlist)):
+        im = PIL.ImageGrab.grab((rectlist[index].topleftwidth, rectlist[index].topleftheight,
+                                 rectlist[index].bottomrightwidth, rectlist[index].bottomrightheight))
+        # im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
+        addr = r'testimage/' + rectlist[index].name + ".png"
+        im.save(addr, 'png')
+        tmpstr = pytesseract.image_to_string(im, lang="num")
+        try:
+            result = float(tmpstr)
+            tmp_print = f"点位{index+1}，识别成功，结果是：{result}"
+            print(tmp_print)
+        except Exception as e:
+            tmp_print = f"点位{index+1}，识别不成功，结果是：{tmpstr}"
+            print(tmp_print)
 
 
 
-        input("按任意键继续，测试截图保存至testimage文件夹，文件名是配置文件里面的name")
+    fig = plt.figure(figsize=(12,6))
+    x = 0.01
+    y = 0.85
+    for rect in rectlist:
+        a = plt.axes([x, y, .1, .1])
+        lena = mpimg.imread('testimage/' + rect.name + '.png')
+        plt.imshow(lena)  # 显示图片
+        plt.title(rect.name)
+        a.spines['right'].set_color('none')
+        a.spines['top'].set_color('none')
+        a.spines['bottom'].set_color('none')
+        a.spines['left'].set_color('none')
+        a.set_xticks([])
+
+        a.set_yticks([])
+        x = x + 0.11
+        if x > 0.8:
+            x = 0.01
+            y = y - 0.11
+
+    plt.show()
+
+
+
 
 if __name__ == '__main__':
     main()
+    rectlist = []

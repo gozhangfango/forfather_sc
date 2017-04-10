@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET  # 这个模块负责解析xml配置文件
 import PIL.ImageGrab                         # 这个模块负责屏幕截图
 from apscheduler.schedulers.blocking import BlockingScheduler
 import uuid
+import pytesseract
 
 class RectItem:
     def __init__(self):
@@ -36,15 +37,22 @@ if __name__ == '__main__':
     def catchjob():
         for rect in rectlist:
             im = PIL.ImageGrab.grab((rect.topleftwidth, rect.topleftheight, rect.bottomrightwidth, rect.bottomrightheight))
-            im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
-            addr = r'trainimage/' + str(uuid.uuid1()) + ".png"
-            im.save(addr, 'png')
+            #im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
+            tmpstr = pytesseract.image_to_string(im, lang="num")
+            try:
+                result = float(tmpstr)
+                addr = r'trainimage/' + tmpstr + "----" + str(uuid.uuid1()) + ".png"
+                im.save(addr, 'png')
+            except Exception as e:
+                addr = r'wrongimage/' + tmpstr + "----" + str(uuid.uuid1()) + ".png"
+                im.save(addr, 'png')
 
 
     par_str = r'*/' + step
     sched = BlockingScheduler()
     sched.add_job(catchjob, 'cron', second=par_str, minute='*', hour='*')
     print("开始抓取")
+    print("程序现在每10秒截取一下图片，可以识别的，放在trainimage文件夹，不能识别的，放在wrongimage文件夹")
     sched.start()
 
 
