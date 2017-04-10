@@ -57,7 +57,7 @@
 
     <step>5</step>
 
-    <ylimit_min>4000</ylimit_min>
+    <ylimit_min>0</ylimit_min>
     <ylimit_max>5000</ylimit_max>
 
 </config>
