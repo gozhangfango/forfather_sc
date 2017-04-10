@@ -48,12 +48,31 @@ def main():
             print(tmp_print)
 
 
+
+    fig = plt.figure(figsize=(12,6))
+    x = 0.01
+    y = 0.85
     for rect in rectlist:
-        fig = plt.figure(rect.name)
-        lena = mpimg.imread('testimage/' + rect.name + '.png')  # 读取和代码处于同一目录下的png
+        a = plt.axes([x, y, .1, .1])
+        lena = mpimg.imread('testimage/' + rect.name + '.png')
         plt.imshow(lena)  # 显示图片
-        plt.axis('off')  # 不显示坐标轴
+        plt.title(rect.name)
+        a.spines['right'].set_color('none')
+        a.spines['top'].set_color('none')
+        a.spines['bottom'].set_color('none')
+        a.spines['left'].set_color('none')
+        a.set_xticks([])
+
+        a.set_yticks([])
+        x = x + 0.11
+        if x > 0.8:
+            x = 0.01
+            y = y - 0.11
+
     plt.show()
+
+
+
 
 if __name__ == '__main__':
     main()

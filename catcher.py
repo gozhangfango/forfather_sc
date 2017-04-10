@@ -63,7 +63,7 @@ def main():
     # 第四部分，开始按照时间规则执行抓取任务
     par_str = r'*/' + step
     sched = BackgroundScheduler()
-    sched.add_job(my_job, 'cron', second=par_str, minute='29-59', hour='9')
+    sched.add_job(my_job, 'cron', second=par_str, minute='30-59', hour='9')
     sched.add_job(my_job, 'cron', second=par_str, minute='0-29', hour='11')
     sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='10,13,14')
     #sched.add_job(my_job, 'cron', second=par_str, minute='*', hour='*')
@@ -117,11 +117,13 @@ class RectItem:
         return self.name + ":左上点 " + str(self.topleftwidth) + " " + str(self.topleftheight) + " 右下点 " + str(self.bottomrightwidth) + " " + str(self.bottomrightheight)
 
 def my_job():
+    global tolal_num, right_num
     wb = load_workbook(res_path)
     ws = wb.active
     result_list = [datetime.datetime.now().strftime('%H:%M:%S'), ]
     lock.acquire()
     for index in range(len(rectlist)):
+        tolal_num = tolal_num + 1
         im = PIL.ImageGrab.grab((rectlist[index].topleftwidth, rectlist[index].topleftheight, rectlist[index].bottomrightwidth, rectlist[index].bottomrightheight))
         #im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
         tmpstr = pytesseract.image_to_string(im, lang="num")
@@ -132,6 +134,7 @@ def my_job():
             xls_result = result
             plot_result = result
             pre_date[index] = result
+            right_num = right_num + 1
         except Exception as e:
             print(e)
             xls_result = tmpstr
@@ -145,6 +148,7 @@ def my_job():
     for tmp in result_list:
         outstr = outstr + ' ' + str(tmp)
     print('插入行'+outstr)
+    print('当前识别率:'+str(right_num/tolal_num))
     wb.save(res_path)
 
 def test_job():
@@ -162,5 +166,9 @@ if __name__ == '__main__':
     datalist = []
     # 前值列表
     pre_date = []
+    # 总数据量
+    tolal_num = 0
+    # 正确的数据量
+    right_num = 0
     # 启动主程序
     main()
