@@ -24,7 +24,7 @@ def main():
     rectlist = []
     displaypar = 1
     step = 10
-    displaypar = int(tree.find("display-par").text)
+    displaypar = float(tree.find("display-par").text)
     step = tree.find("step").text
     ylimit_min = int(tree.find('ylimit_min').text)
     ylimit_max = int(tree.find('ylimit_max').text)

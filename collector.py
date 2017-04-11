@@ -21,7 +21,7 @@ if __name__ == '__main__':
     rectlist = []
     displaypar = 1
     step =10
-    displaypar = int(tree.find("display-par").text)
+    displaypar = float(tree.find("display-par").text)
     step = tree.find("step").text
     for elem in tree.iter(tag='rect'):
         tempitem = RectItem()
