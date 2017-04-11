@@ -38,7 +38,7 @@ if __name__ == '__main__':
         for rect in rectlist:
             im = PIL.ImageGrab.grab((rect.topleftwidth, rect.topleftheight, rect.bottomrightwidth, rect.bottomrightheight))
             #im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
-            tmpstr = pytesseract.image_to_string(im, lang="num")
+            tmpstr = pytesseract.image_to_string(im, lang="num", config="-psm 8")
             try:
                 result = float(tmpstr)
                 addr = r'trainimage/' + tmpstr + "----" + str(uuid.uuid1()) + ".png"

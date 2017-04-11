@@ -126,7 +126,7 @@ def my_job():
         tolal_num = tolal_num + 1
         im = PIL.ImageGrab.grab((rectlist[index].topleftwidth, rectlist[index].topleftheight, rectlist[index].bottomrightwidth, rectlist[index].bottomrightheight))
         #im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
-        tmpstr = pytesseract.image_to_string(im, lang="num")
+        tmpstr = pytesseract.image_to_string(im, lang="num", config="-psm 8")
         xls_result = ''
         plot_result = 0
         try:

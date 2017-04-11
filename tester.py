@@ -41,7 +41,7 @@ def main():
             #im = im.resize((im.size[0] * 18, im.size[1] * 18), PIL.Image.ANTIALIAS)
             addr = r'testimage/' + rectlist[index].name + ".png"
             im.save(addr, 'png')
-            tmpstr = pytesseract.image_to_string(im, lang="num")
+            tmpstr = pytesseract.image_to_string(im, lang="num", config="-psm 8")
             try:
                 result = float(tmpstr)
                 tmp_print = f"点位{index+1}，识别成功，结果是：{result}"
