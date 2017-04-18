@@ -55,7 +55,7 @@
 
     <display-par>2</display-par>
 
-    <step>5</step>
+    <step>3</step>
 
     <ylimit_min>0</ylimit_min>
     <ylimit_max>5000</ylimit_max>
